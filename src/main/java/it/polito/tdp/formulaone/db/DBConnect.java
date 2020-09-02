@@ -6,9 +6,10 @@ import java.sql.SQLException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+
 public class DBConnect {
 
-	private static final String jdbcURL = "jdbc:mysql://localhost/f1db";
+	private static final String jdbcURL = "jdbc:mysql://localhost/test";
 	private static HikariDataSource ds;
 	
 	public static Connection getConnection() {
@@ -17,7 +18,7 @@ public class DBConnect {
 			HikariConfig config = new HikariConfig();
 			config.setJdbcUrl(jdbcURL);
 			config.setUsername("root");
-			config.setPassword("");
+			//config.setPassword("");
 			
 			// configurazione MySQL
 			config.addDataSourceProperty("cachePrepStmts", "true");
@@ -36,4 +37,6 @@ public class DBConnect {
 			throw new RuntimeException(e);
 		}
 	}
+	
+
 }

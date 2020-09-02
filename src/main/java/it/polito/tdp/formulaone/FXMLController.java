@@ -1,9 +1,12 @@
 package it.polito.tdp.formulaone;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.formulaone.model.Arco;
 import it.polito.tdp.formulaone.model.Model;
+import it.polito.tdp.formulaone.model.Season;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,7 +25,7 @@ public class FXMLController {
     private URL location;
 
     @FXML
-    private ComboBox<?> boxAnno;
+    private ComboBox<Integer> boxAnno;
 
     @FXML
     private Button btnSelezionaStagione;
@@ -44,7 +47,30 @@ public class FXMLController {
 
     @FXML
     void doSelezionaStagione(ActionEvent event) {
-
+    	
+    	txtResult.clear();
+    	
+    	Integer x = boxAnno.getValue();
+    
+    	if (x == null) {
+    		txtResult.appendText("Selezionare una stagione!\n");
+    		return;
+    	}
+    	
+    	this.model.creaGrafo(x);
+    	txtResult.appendText("GRAFO CREATO!\n");
+    	txtResult.appendText("#VERTICI: "+this.model.nVertici()+"\n");
+    	txtResult.appendText("#ARCHI: "+this.model.nArchi()+"\n\n");
+    	
+    	List <Arco> coinvolte = this.model.getPesoMax();
+    	
+    	txtResult.appendText("Gare con più piloti in comune:\n");
+    	
+    	for (Arco a : coinvolte) {
+    		txtResult.appendText(a.getR1().getName()+" - "+a.getR2().getName()+" "+a.getPeso() +"\n");
+    	}
+    	
+    	
     }
 
     @FXML
@@ -66,5 +92,6 @@ public class FXMLController {
 
 	public void setModel(Model model) {
 		this.model = model;
+		boxAnno.getItems().addAll(this.model.getAllSeason());
 	}
 }
